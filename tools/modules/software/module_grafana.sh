@@ -18,8 +18,8 @@ function module_grafana () {
 	local condition=$(which "$title" 2>/dev/null)
 
 	if pkg_installed docker-ce; then
-		local container=$(docker container ls -a | mawk '/grafana-enterprise?( |$)/{print $1}')
-		local image=$(docker image ls -a | mawk '/grafana-enterprise?( |$)/{print $3}')
+		local container=$(docker container ls -a | mawk '/grafana?( |$)/{print $1}')
+		local image=$(docker image ls -a | mawk '/grafana?( |$)/{print $3}')
 	fi
 
 	local commands
@@ -40,7 +40,7 @@ function module_grafana () {
 			-p 3000:3000 \
 			-v "${GRAFANA_BASE}:/var/lib/grafana" \
 			--restart unless-stopped \
-			grafana/grafana-enterprise
+			grafana/grafana
 			for i in $(seq 1 20); do
 				if docker inspect -f '{{ index .Config.Labels "build_version" }}' grafana >/dev/null 2>&1 ; then
 					break
